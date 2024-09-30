@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Edit Exhibition";
+}
+
+@model ArtGallery.Models.ExhibitionView
+
+<div class="container">
+    <h2>Edit Exhibition</h2>
+    <form asp-action="Edit" method="post">
+        <div class="form-group">
+            <label asp-for="ExhibitionName" class="control-label"></label>
+            <input asp-for="ExhibitionName" class="form-control" />
+            <span asp-validation-for="ExhibitionName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Venue" class="control-label"></label>
+            <input asp-for="Venue" class="form-control" />
+            <span asp-validation-for="Venue" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="StartDate" class="control-label"></label>
+            <input asp-for="StartDate" class="form-control" type="date" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EndDate" class="control-label"></label>
+            <input asp-for="EndDate" class="form-control" type="date" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ImageUrl" class="control-label"></label>
+            <input asp-for="ImageUrl" class="form-control" />
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-custom-primary">Save</button>
+    </form>
+</div>

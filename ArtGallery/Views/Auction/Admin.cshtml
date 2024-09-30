@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ArtGallery.Models.AuctionView>
+
+@{
+    ViewData["Title"] = "Auctions management";
+    Layout = "_Layout";
+}
+
+<h2>Auction List</h2>
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-custom-primary">Create New</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Starting Price</th>
+            <th>Current Bid</th>
+            <th>Username</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ArtworkTitle</td>
+                <td>@item.StartDate</td>
+                <td>@item.EndDate</td>
+                <td>@item.StartingPrice.ToString("C")</td>
+                <td>@item.CurrentBid</td>
+                <td>@item.UserName</td>
+                <td>
+                    @if (item.EndDate >  DateTime.Now)
+                    {
+                        <a href="@Url.Action("Edit", new { id = item.AuctionId })" class="btn btn-warning">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    }
+                    <a href="@Url.Action("Delete", new { id = item.AuctionId })" class="btn btn-danger">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

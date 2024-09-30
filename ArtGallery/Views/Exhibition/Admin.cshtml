@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Exhibition Management";
+}
+
+@model IEnumerable<ArtGallery.Models.ExhibitionView>
+
+<div class="container">
+    <h2>Exhibition List</h2>
+    <a href="@Url.Action("Create")" class="btn btn-custom-primary">Create New</a>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Exhibition Name</th>
+                <th>Venue</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var exhibition in Model)
+            {
+                <tr>
+                    <td>@exhibition.ExhibitionName</td>
+                    <td>@exhibition.Venue</td>
+                    <td>@exhibition.StartDate.ToShortDateString()</td>
+                    <td>@exhibition.EndDate.ToShortDateString()</td>
+                    <td>@exhibition.Description</td>
+                    <td>
+                        <a href="@Url.Action("Edit", new { id = exhibition.ExhibitionId })" class="btn btn-warning mb-2" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="@Url.Action("Delete", new { id = exhibition.ExhibitionId })" class="btn btn-danger" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

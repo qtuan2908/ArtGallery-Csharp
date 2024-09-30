@@ -1,0 +1,48 @@
+﻿@model ArtGallery.Models.CustomerView
+
+@{
+    ViewData["Title"] = "Customer Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Customer</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.CustomerId">Edit</a> |
+    <a asp-action="Index">Delete Account</a>
+</div>

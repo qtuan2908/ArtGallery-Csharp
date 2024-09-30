@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ArtGallery.Models.CustomerView>
+
+@{
+    ViewData["Title"] = "Customer management";
+}
+
+<h2>List Customer</h2>
+
+<a href="@Url.Action("Create")" class="btn btn-custom-primary mb-4">Create New</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Username
+            </th>
+            <th>
+                Full Name
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Phone Number
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Action
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = item.CustomerId })" class="btn btn-warning" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="@Url.Action("Delete", new { id = item.CustomerId })" class="btn btn-danger" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

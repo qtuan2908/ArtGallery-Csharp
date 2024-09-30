@@ -1,0 +1,30 @@
+﻿@model ArtGallery.Models.ExhibitionDetail
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ExhibitionDetail</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Exhibition)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Exhibition.ExhibitionName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ArtWork)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ArtWork.ArtworkId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ExhibitionDetailId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

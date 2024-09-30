@@ -1,0 +1,14 @@
+﻿.bg-custom-primary {
+    background-color: #81c408 !important;
+    background-image: none;
+}
+
+.btn-custom-primary {
+    color: #fff;
+    background-color: #81c408;
+    border-color: #81c408;
+}
+
+.text-custom-primary {
+    color: #81c408 !important
+}

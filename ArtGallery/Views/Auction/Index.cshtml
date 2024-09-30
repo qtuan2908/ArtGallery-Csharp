@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["title"] = "Auction";
+    Layout = "_UserLayout";
+}
+@model IEnumerable<ArtGallery.Models.AuctionView>
+
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Auction</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+        <li class="breadcrumb-item active text-white">Auction</li>
+    </ol>
+</div>
+<div class="container my-5">
+    <h1 class="text-center">Auctions</h1>
+    <div class="row">
+        @foreach (var auction in Model)
+        {
+            <div class="col-md-12 mb-4">
+                <div class="card">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <img src="@auction.ImageURL" class="card-img" alt="@auction.ArtworkTitle">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">@auction.ArtworkTitle - @(auction.EndDate > DateTime.Now ? "In progress" : "Finished")</h5>
+                                <p class="card-text">Start Date: @auction.StartDate</p>
+                                <p class="card-text">End Date: @auction.EndDate</p>
+                                <p class="card-text">Starting Price: @auction.StartingPrice.ToString("C")</p>
+
+                                @if (auction.EndDate > DateTime.Now)
+                                {
+                                    <p class="card-text">Current Bid: @auction.CurrentBid.ToString("C") by <strong>@auction.UserName</strong></p>
+                                    <form asp-action="PlaceBid" method="post">
+                                        <div class="form-group">
+                                            <label for="newBid_@auction.AuctionId">Your Bid</label>
+                                            <input type="number" id="newBid_@auction.AuctionId" name="NewBid" class="form-control newBid" data-start-price="@auction.StartingPrice" data-current-bid="@auction.CurrentBid" min="@auction.CurrentBid" step="0.01" required />
+                                        </div>
+                                        <input type="hidden" name="AuctionId" value="@auction.AuctionId" />
+                                      <div>
+
+                                        <span id="error_@auction.AuctionId" class="text-danger ml-2"></span>
+                                      </div>
+                                        <button type="submit" id="placeBidBtn_@auction.AuctionId" class="btn btn-primary w-auto mt-2">Place Bid</button>
+                                    </form>
+                                }
+                                @if (auction.EndDate <= DateTime.Now)
+                                {
+                                    <p class="card-text">Purchased by <strong>@auction.UserName</strong> at price @auction.CurrentBid.ToString("C")</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".newBid").forEach(function (input) {
+            input.addEventListener("input", function () {
+                var startPrice = parseFloat(input.dataset.startPrice);
+                var currentBid = parseFloat(input.dataset.currentBid);
+                var newBid = parseFloat(input.value);
+                var button = document.getElementById("placeBidBtn_" + input.id.split('_')[1]);
+                var errorSpan = document.getElementById("error_" + input.id.split('_')[1]);
+
+                if (isNaN(newBid)) {
+                    button.disabled = true;
+                } else if (newBid < startPrice) {
+                    button.disabled = true;
+                    errorSpan.textContent = `Bid must be at least ${startPrice.toFixed(2)}.`;
+                } else if (newBid < currentBid) {
+                    button.disabled = true;
+                    errorSpan.textContent = `Bid must be higher than current bid of ${currentBid.toFixed(2)}.`;
+                } else {
+                    button.disabled = false;
+                    errorSpan.textContent = "";
+                }
+            });
+
+            // Trigger input event on page load to handle pre-filled values (e.g., from browser autocomplete)
+            input.dispatchEvent(new Event('input'));
+        });
+    });
+</script>

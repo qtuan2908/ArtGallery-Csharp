@@ -1,0 +1,144 @@
+﻿@{
+    ViewData["title"] = "Artwork";
+    Layout = "_UserLayout";
+    var minPrice = Context.Request.Query["minPrice"].ToString();
+    var maxPrice = Context.Request.Query["maxPrice"].ToString();
+    if (minPrice == "")
+    {
+        minPrice = "0";
+    }
+    if (maxPrice == "")
+    {
+        maxPrice = "0";
+    }
+}
+@model IEnumerable<ArtGallery.Models.ArtworkView>
+
+<!-- Single Page Header start -->
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Artwork</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+        <li class="breadcrumb-item active text-white">Artwork</li>
+    </ol>
+</div>
+<!-- Single Page Header End -->
+<!-- Artwork Start-->
+<div class="container-fluid fruite py-5">
+    <div class="container py-5">
+        <h1 class="mb-4">Artwork Collection</h1>
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <div class="row g-4">
+                    <form id="searchForm" class="col-lg-3">
+                        <div class="row g-4">
+                            <div class="col-lg-12">
+                                <div class="input-group w-100 mx-auto d-flex">
+                                    <input type="search" name="title" class="form-control p-3" placeholder="Enter title..." aria-describedby="search-icon-1" value="@Context.Request.Query["title"]">
+                                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <h4>Categories</h4>
+                                    @foreach (var category in Enum.GetValues(typeof(Category)).Cast<Category>())
+                                    {
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="categories" value="@category" @(Context.Request.Query["categories"].Contains(category.ToString()) ? "checked" : "")>
+                                            <label class="form-check-label">@category</label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <h4>Statuses</h4>
+                                    @foreach (var status in Enum.GetValues(typeof(Status)).Cast<Status>())
+                                    {
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="statuses" value="@status" @(Context.Request.Query["statuses"].Contains(status.ToString()) ? "checked" : "")>
+                                            <label class="form-check-label">@status</label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <h4 class="mb-2">Price</h4>
+                                    <h6 class="mb-2">Min</h6>
+                                    <input type="range" class="form-range w-100" id="minPrice" name="minPrice" min="0" max="10000" value=@minPrice oninput="amountMin.value=minPrice.value">
+                                    <output id="amountMin" name="amountMin" min-velue="0" max-value="10000" for="minPrice">@minPrice</output>
+                                    <h6 class="mb-2">Max</h6>
+                                    <input type="range" class="form-range w-100" id="maxPrice" name="maxPrice" min="0" max="10000" value=@maxPrice oninput="amountMax.value=maxPrice.value">
+                                    <output id="amountMax" name="amountMax" min-velue="0" max-value="10000" for="maxPrice">@maxPrice</output>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <h4 class="mb-2">Artist Name</h4>
+                                    <input type="text" id="artistName" name="artistName" class="form-control" placeholder="Enter artist name..." value="@Context.Request.Query["artistName"]" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-lg-9">
+                        <div class="row g-4 justify-content-center" data-masonry='{"percentPosition": true }'>
+                            @if (Model != null && Model.Any())
+                            {
+                                @foreach (var artwork in Model)
+                                {
+                                    <div class="col-md-6 col-lg-6 col-xl-4">
+                                        <div class="rounded border border-secondary rounded-bottom position-relative">
+                                            <div>
+                                                <a href="@Url.Action("Detail", "Artwork", new { id = artwork.ArtworkId })">
+                                                    <img src="@artwork.ImageURL" class="img-fluid w-100 rounded-top" alt="@artwork.Title">
+                                                </a>
+                                            </div>
+                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">@artwork.Category</div>
+                                            <div class="p-4 ">
+                                                <h4>@artwork.Title</h4>
+                                                <p>@artwork.ArtistName</p>
+                                                <div class="d-flex justify-content-between flex-lg-wrap">
+                                                    @if (artwork.Category == Category.ForSale)
+                                                    {
+                                                        <p class="text-dark fs-5 fw-bold mb-0">@artwork.Price?.ToString("C")</p>
+                                                    }                                                    
+                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('#searchForm input').forEach(element => {
+            element.addEventListener('change', () => {
+                let params = new URLSearchParams(new FormData(document.getElementById('searchForm')));
+                let newUrl = `${window.location.pathname}?${params.toString()}`;
+                window.history.pushState({}, '', newUrl);
+                window.location.href = newUrl;
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elem = document.querySelector('.row');
+            imagesLoaded(elem, function () {
+                var msnry = new Masonry(elem, {
+                    percentPosition: true
+                });
+            });
+        });
+    </script>
+}

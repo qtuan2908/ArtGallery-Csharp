@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ArtGallery.Models.ArtistView>
+
+@{
+    ViewData["Title"] = "Artist Management";
+}
+
+<h2>List Artist</h2>
+
+<a href="@Url.Action("Create")" class="btn btn-custom-primary mb-4">Create New</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Username
+            </th>
+            <th>
+                Artist Name
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Phone Number
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArtistName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = item.ArtistId })" class="btn btn-warning" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="@Url.Action("Delete", new { id = item.ArtistId })" class="btn btn-danger" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

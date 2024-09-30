@@ -1,0 +1,58 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["title"] = "Cart";
+    Layout = "_UserLayout";
+
+}
+@model ArtGallery.Models.CartView
+
+<!-- Single Page Header start -->
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Cart</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+        <li class="breadcrumb-item active text-white">Cart</li>
+    </ol>
+</div>
+<!-- Single Page Header End -->
+<!-- Cart Page Start -->
+<div class="container">
+    <h2>Your Cart</h2>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Artwork</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Artworks)
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.Description</td>
+                    <td>@item.Price?.ToString("C")</td>
+                    <td>
+                        <form asp-action="RemoveFromCart" method="post">
+                            <input type="hidden" name="artworkId" value="@item.ArtworkId" />
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        <form asp-controller="Cart" asp-action="Payment">
+            <div class="text-end">
+                <button type="submit" class="btn btn-success">Purchase</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Cart Page End -->

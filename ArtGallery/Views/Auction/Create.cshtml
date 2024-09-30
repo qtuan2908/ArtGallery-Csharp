@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Create Auction";
+    var artworks = ViewBag.Artwork;
+}
+
+@model ArtGallery.Models.AuctionCreate
+
+<div class="container">
+    <h2>Create New Auction</h2>
+    <form asp-action="Create" method="post">
+        <div class="form-group">
+            <label asp-for="ArtworkId" class="control-label"></label>
+            <select asp-for="ArtworkId" class="form-control">
+                @foreach (Artwork artwork in artworks)
+                {
+                    <option value="@artwork.ArtworkId">@artwork.Title</option>
+                }
+            </select>
+            <span asp-validation-for="ArtworkId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="StartDate" class="control-label"></label>
+            <input asp-for="StartDate" class="form-control" type="datetime-local" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EndDate" class="control-label"></label>
+            <input asp-for="EndDate" class="form-control" type="datetime-local" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="StartingPrice" class="control-label"></label>
+            <input asp-for="StartingPrice" class="form-control" />
+            <span asp-validation-for="StartingPrice" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-custom-primary">Create</button>
+    </form>
+</div>

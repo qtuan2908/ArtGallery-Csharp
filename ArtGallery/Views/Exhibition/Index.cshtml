@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["title"] = "Exhibition";
+    Layout = "_UserLayout";
+
+}
+@model IEnumerable<ArtGallery.Models.ExhibitionView>
+
+
+<!-- Single Page Header start -->
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Exhibition</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+        <li class="breadcrumb-item active text-white">Exhibition</li>
+    </ol>
+</div>
+<!-- Single Page Header End -->
+<<div class="container my-5">
+    <div class="header-section">
+        <h1>Welcome to Our Exhibition</h1>
+        <p>Discover our latest artworks and events.</p>
+    </div>
+    <div id="carouselExampleSlidesOnly" class="carousel slide mx-auto" style="max-width: 800px;" data-bs-ride="carousel">
+
+        <div class="carousel-inner">
+            @if (Model != null && Model.Any())
+            {
+                var isFirst = true;
+                foreach (var exhibition in Model)
+                {
+                    <div class="carousel-item @(isFirst ? "active" : "")">
+                        <img src="@exhibition.ImageUrl" class="d-block w-100" alt="@exhibition.ExhibitionName">
+                        <div class="carousel-caption d-none d-md-block">
+                            <a href="@Url.Action("Detail", "Exhibition", new { id = exhibition.ExhibitionId })" class="btn btn-lg rounded-pill shadow-sm text-white px-4 py-2 d-inline-block">
+                                 @exhibition.ExhibitionName
+                            </a>
+                        </div>
+                    </div>
+                    isFirst = false;
+                }
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+<!-- Contact End -->
